@@ -10,16 +10,14 @@ export default function Post(props) {
     <div className='container'>
       <div className='user-info'>
         <img src={BeeImage} alt='Bee Profile Pic' id='bee-img' />
-        <div class="userinfo-detailed">
-  <p class='username-bee'>{props.username}</p>
-          <p class='says-bee'>says</p>
+        <div className='userinfo-detailed'>
+          <p className='username-bee'>{props.username}</p>
+          <p className='says-bee'>says</p>
         </div>
       </div>
-      <div style={{wordWrap: "break-word"}}>
-        <p class="bzz-content">
-          {props.body}
-        </p>
-        <p class="bzz-timestamp">{props.timestamp}</p>
+      <div style={{ wordWrap: 'break-word' }}>
+        <p className='bzz-content'>{props.body}</p>
+        <p className='bzz-timestamp'>{props.timestamp}</p>
       </div>
     </div>
   );

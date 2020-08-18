@@ -9,8 +9,8 @@ export default function Header() {
     <header>
       <Link to='/' id="home-link" onClick={() => setCurrentPage('Home')}>
         <img src={Logo} alt='Logo' id='logo' />
-        <p id='pagetitle'>{currentPage}</p>
       </Link>
+        <p id='pagetitle'>{currentPage}</p>
       {currentPage === "Home" ? <h1 className="beeyou-title">Welcome on BeeYou</h1> : null}
       <Link to='/profile' id='profile-link' onClick={() => setCurrentPage('Profile')}>
         <p id='text'>
