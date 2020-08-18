@@ -1,0 +1,34 @@
+@import "../fonts/fonts.css";
+
+header {
+  width: 100%;
+  height: 90px;
+  background-color: #EEEEEE;
+  display: flex;
+  align-items: center;
+}
+
+#logo {
+  width: 64px;
+  height: 64px;
+  transform: rotate(45deg); 
+  object-fit: contain;
+  margin-left: 80px;
+}
+
+#pagetitle{
+  margin: 0;
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 28px;
+  margin-left: 16px;
+}
+
+#profilelink {
+  margin: 0;
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: 80px;
+}
