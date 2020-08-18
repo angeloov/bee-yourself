@@ -1,6 +1,6 @@
 @import '../fonts/fonts.css';
 
-#container {
+#container-pc {
   position: relative;
   left: 50%;
   width: 420px;
@@ -8,15 +8,16 @@
   transform: translate(-50%, 0);
   margin-top: 16px;
   background: #ffffff;
-  box-shadow: 0px 0px 8px -1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   border-radius: 25px;
   align-items: center;
   justify-content: center;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
 }
 
-
-input, textarea, button {
+input,
+textarea,
+button {
   margin: 0;
   display: block;
 }
@@ -31,7 +32,7 @@ input, textarea, button {
   box-sizing: border-box;
   border-radius: 10px;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   padding: 8px;
 }
@@ -44,17 +45,18 @@ input, textarea, button {
   box-sizing: border-box;
   border-radius: 10px;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 16px;
   font-size: 18px;
   padding: 8px;
-
+  resize: none;
 }
 
 .submit {
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   height: 38px;
-  background: #FFDC3A;
+  background: #ffdc3a;
+  filter: saturate(250%);
   border: 0;
   font-weight: 600;
   font-size: 20px;
@@ -71,4 +73,13 @@ input, textarea, button {
 #btn-cont {
   display: flex;
   justify-content: flex-end;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9e9e9e;
+}
+
+*:focus {
+  outline: none;
 }

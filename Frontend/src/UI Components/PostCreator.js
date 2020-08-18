@@ -3,7 +3,7 @@ import './PostCreator.css';
 
 export default function PostCreator() {
   return (
-    <div id='container'>
+    <div id='container-pc'>
       <div id='form-container'>
         <form action='/' autoComplete="off">
           <input

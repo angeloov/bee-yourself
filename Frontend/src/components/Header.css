@@ -1,9 +1,9 @@
-@import "../fonts/fonts.css";
+@import '../fonts/fonts.css';
 
 header {
   width: 100%;
   height: 90px;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   display: flex;
   align-items: center;
 }
@@ -11,24 +11,52 @@ header {
 #logo {
   width: 64px;
   height: 64px;
-  transform: rotate(45deg); 
+  transform: rotate(45deg);
   object-fit: contain;
   margin-left: 80px;
 }
 
-#pagetitle{
+#pagetitle {
   margin: 0;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 28px;
   margin-left: 16px;
+  color: #000;
 }
 
-#profilelink {
+#pagetitle:visited {
+  color: #000;
+}
+
+#profile-link {
   margin: 0;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
   font-weight: 600;
   font-size: 20px;
   margin-left: auto;
   margin-right: 80px;
+  text-decoration: none;
+}
+
+#profile-link:visited {
+  color: #000;
+}
+
+#profile-link:hover {
+  text-decoration: underline;
+}
+
+#home-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.beeyou-title {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
+  font-size: 28px;
 }
