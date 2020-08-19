@@ -9,7 +9,7 @@ const BzzModel = require('./models/PostSchema');
 
 app.use(helmet());
 app.use(cors());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -28,11 +28,8 @@ app.get('/getall/bzz', (req, res) => {
 
 app.post(
   '/create/bzz',
-  [
-    body('beeName').isLength({ min: 4 }),
-    body('bzzBody').isLength({ min: 2 }),
-  ],
-  (req, res) => {
+  [body('beeName').isLength({ min: 4 }), body('bzzBody').isLength({ min: 2 })],
+  (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -41,13 +38,14 @@ app.post(
       {
         beeName: req.body.beeName,
         bzzBody: req.body.bzzBody,
-        timestamp: (new Date()).toLocaleString()
+        timestamp: new Date().toLocaleString(),
       },
       err => {
         if (err) console.log(err);
       }
     );
     res.status(200);
+    next();
   }
 );
 

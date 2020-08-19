@@ -1,67 +1,86 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import './PostCreator.css';
 
 export default function PostCreator() {
-  const [beeName, setBeeName] = useState('');
-  const [bzzBody, setBzzBody] = useState('');
+  const beeName = useRef('');
+  const bzzBody = useRef('');
 
   const handleChange = e => {
     if (e.target.name === 'beeName') {
-      setBeeName(e.target.value);
-      console.log(beeName);
+      beeName.current = e.target.value;
     } else {
-      setBzzBody(e.target.value);
-      console.log(bzzBody);
+      bzzBody.current = e.target.value;
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    // Add bee at the end of the string
+    if (/bee$/.test(beeName.current)) {
+      let temp = beeName.current.split('');
+      temp = temp.slice(0, -3);
+      beeName.current = temp.join('');
+    }
+    if (!/Bee$/.test(beeName.current)) {
+      beeName.current = beeName.current + 'Bee';
+    }
+
+    // Send request to server
     (async () => {
+      document.getElementById('grayedout').style.display = 'block';
       let request = await fetch('http://localhost:5000/create/bzz', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `beeName=${beeName}&bzzBody=${bzzBody}`,
+        body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
       });
-      console.log(request.ok)
-      /* let response = await request.json();
-      if (response === 'Succesful') {
-        console.log('Finire il caricamento');
-      } */
-      setBeeName('');
-      setBzzBody('');
+
+      let wait500ms = new Promise((resolve) => {
+        setTimeout(() => resolve('done'), 500);
+      });
+
+      if (request.ok) {
+        await wait500ms;
+        document.getElementById('grayedout').style.display = 'none';
+      }
+      // TODO: Else -> handle server error
+
+      document.querySelector('#bee-name').value = '';
+      document.querySelector('#bee-body').value = '';
     })();
+
+    // TODO: Refresh the posts
+    beeName.current = '';
+    bzzBody.current = '';
   };
 
   return (
-    <div id='container-pc'>
-      <div id='form-container'>
-        <form autoComplete='off'>
-          <input
-            type='text'
-            name='beeName'
-            id='bee-name'
-            placeholder='Bee Name'
-            onChange={handleChange}
-          />
-          <textarea
-            name='bzzBody'
-            id='bee-body'
-            placeholder='Write your bzzz here...'
-            onChange={handleChange}
-          ></textarea>
-          <div id='btn-cont'>
+    <div>
+      <div className='container-pc'>
+        <div id='form-container'>
+          <form onSubmit={handleSubmit} autoComplete='off'>
             <input
-              type='submit'
-              className='submit'
-              onClick={handleSubmit}
-              value='Post'
-            ></input>
-          </div>
-        </form>
+              type='text'
+              name='beeName'
+              id='bee-name'
+              placeholder='Bee Name'
+              onChange={handleChange}
+            />
+            <textarea
+              name='bzzBody'
+              id='bee-body'
+              placeholder='Write your bzzz here...'
+              onChange={handleChange}
+            ></textarea>
+            <div id='btn-cont'>
+              <input type='submit' className='submit' value='Post'></input>
+            </div>
+          </form>
+        </div>
       </div>
+      <div id='grayedout'></div>
     </div>
   );
 }
