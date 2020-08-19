@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import './PostCreator.css';
 
-export default function PostCreator() {
+export default function PostCreator(props) {
   const beeName = useRef('');
   const bzzBody = useRef('');
 
@@ -37,7 +37,7 @@ export default function PostCreator() {
         body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
       });
 
-      let wait500ms = new Promise((resolve) => {
+      let wait500ms = new Promise(resolve => {
         setTimeout(() => resolve('done'), 500);
       });
 
@@ -75,7 +75,15 @@ export default function PostCreator() {
               onChange={handleChange}
             ></textarea>
             <div id='btn-cont'>
-              <input type='submit' className='submit' value='Post'></input>
+              <input
+                type='submit'
+                className='submit'
+                value='Post'
+                onClick={() => {
+                  props.onPostCreated(true);
+                  setTimeout(() => props.onPostCreated(false), 500)
+                }}
+              ></input>
             </div>
           </form>
         </div>

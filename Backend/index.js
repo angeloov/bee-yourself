@@ -44,6 +44,7 @@ app.post(
         if (err) console.log(err);
       }
     );
+    res.send();
     res.status(200);
     next();
   }

@@ -1,10 +1,8 @@
 // RFC
 import React from 'react';
 import './Post.css';
-import BeeImage from '../Assets/bee.svg';
+import BeeImage from '../assets/bee.svg';
 
-// Props:
-// BeeName, PostBody, Datastamp
 export default function Post(props) {
   return (
     <div className='post-container'>
