@@ -16,8 +16,7 @@
 }
 
 input,
-textarea,
-button {
+textarea {
   margin: 0;
   display: block;
 }

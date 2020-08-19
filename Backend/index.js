@@ -9,8 +9,9 @@ const BzzModel = require('./models/PostSchema');
 
 app.use(helmet());
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express.urlencoded({ extended: true })); 
+/* app.use(express.json());
+ */
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -47,6 +48,7 @@ app.post(
         if (err) console.log(err);
       }
     );
+    console.log(req.body);
     res.status(200);
   }
 );
