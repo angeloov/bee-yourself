@@ -3,7 +3,7 @@
 header {
   width: 100%;
   height: 90px;
-  background-color: #eeeeee;
+  background: #EEEEEE;
   display: flex;
   align-items: center;
 }

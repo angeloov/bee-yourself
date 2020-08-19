@@ -7,7 +7,7 @@ import BeeImage from '../Assets/bee.svg';
 // BeeName, PostBody, Datastamp
 export default function Post(props) {
   return (
-    <div className='container'>
+    <div className='post-container'>
       <div className='user-info'>
         <img src={BeeImage} alt='Bee Profile Pic' id='bee-img' />
         <div className='userinfo-detailed'>
