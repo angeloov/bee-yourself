@@ -10,7 +10,7 @@ async function getAllPosts() {
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const [hasToRefresh, setHasToRefresh] = useState(false);
+  const [hasToRefresh, setHasToRefresh] = useState(true);
 
   useEffect(() => {
     (async () => {

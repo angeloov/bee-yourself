@@ -11,7 +11,7 @@ export default function Header() {
         <img src={Logo} alt='Logo' id='logo' />
       </Link>
         <p id='pagetitle'>{currentPage}</p>
-      {currentPage === "Home" ? <h1 className="beeyou-title">Welcome on BeeYou</h1> : null}
+      {currentPage === "Home" ? <h1 className="beeyou-title">BeeYou</h1> : null}
       <Link to='/profile' id='profile-link' onClick={() => setCurrentPage('Profile')}>
         <p id='text'>
           Profile

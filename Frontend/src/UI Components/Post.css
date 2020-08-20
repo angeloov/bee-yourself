@@ -12,6 +12,7 @@
 
 #bee-img {
   width: 48px;
+  filter: saturate(200%);
 }
 
 .user-info {

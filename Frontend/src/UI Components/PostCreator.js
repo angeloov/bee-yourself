@@ -4,6 +4,7 @@ import './PostCreator.css';
 export default function PostCreator(props) {
   const beeName = useRef('');
   const bzzBody = useRef('');
+  const refreshHome = useRef(false);
 
   const handleChange = e => {
     if (e.target.name === 'beeName') {
@@ -37,12 +38,12 @@ export default function PostCreator(props) {
         body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
       });
 
-      let wait500ms = new Promise(resolve => {
+      /* let wait500ms = new Promise(resolve => {
         setTimeout(() => resolve('done'), 500);
-      });
+      }); */
 
       if (request.ok) {
-        await wait500ms;
+        /* await wait500ms; */
         document.getElementById('grayedout').style.display = 'none';
       }
       // TODO: Else -> handle server error
@@ -80,8 +81,10 @@ export default function PostCreator(props) {
                 className='submit'
                 value='Post'
                 onClick={() => {
-                  props.onPostCreated(true);
-                  setTimeout(() => props.onPostCreated(false), 500)
+                  // When you click the button the state of the home component changes, and so does the
+                  // home components itself, showing the post that you posted. 
+                  props.onPostCreated(refreshHome.current);
+                  refreshHome.current = !refreshHome.current;
                 }}
               ></input>
             </div>
