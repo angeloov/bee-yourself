@@ -38,13 +38,12 @@ export default function PostCreator(props) {
         body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
       });
 
-      /* let wait500ms = new Promise(resolve => {
-        setTimeout(() => resolve('done'), 500);
-      }); */
-
+      // When a post is sent to the server the home component will refresh
+      // Along with that also all the posts displayed will refresh
       if (request.ok) {
-        /* await wait500ms; */
         document.getElementById('grayedout').style.display = 'none';
+        props.onPostCreated(refreshHome.current);
+        refreshHome.current = !refreshHome.current;
       }
       // TODO: Else -> handle server error
 
@@ -52,7 +51,6 @@ export default function PostCreator(props) {
       document.querySelector('#bee-body').value = '';
     })();
 
-    // TODO: Refresh the posts
     beeName.current = '';
     bzzBody.current = '';
   };
@@ -80,12 +78,6 @@ export default function PostCreator(props) {
                 type='submit'
                 className='submit'
                 value='Post'
-                onClick={() => {
-                  // When you click the button the state of the home component changes, and so does the
-                  // home components itself, showing the post that you posted. 
-                  props.onPostCreated(refreshHome.current);
-                  refreshHome.current = !refreshHome.current;
-                }}
               ></input>
             </div>
           </form>
