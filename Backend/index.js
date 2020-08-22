@@ -41,14 +41,21 @@ app.post(
         timestamp: new Date().toLocaleString(),
       },
       err => {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err)
+          next(error);
+        };
       }
     );
     res.send();
     res.status(200);
-    next();
   }
 );
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  process.env.NODE_ENV === "production" ? res.status(500).send("Sever error! Something went wrong") : res.status(500).json({errorStack: err.stack});
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>

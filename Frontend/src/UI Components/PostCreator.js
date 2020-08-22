@@ -14,8 +14,9 @@ export default function PostCreator(props) {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
+    document.getElementById('grayedout').style.display = 'block';
 
     // Add bee at the end of the string
     if (/bee$/.test(beeName.current)) {
@@ -28,28 +29,23 @@ export default function PostCreator(props) {
     }
 
     // Send request to server
-    (async () => {
-      document.getElementById('grayedout').style.display = 'block';
-      let request = await fetch('http://localhost:5000/create/bzz', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
-      });
+    let request = await fetch('http://localhost:5000/create/bzz', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
+    });
 
-      // When a post is sent to the server the home component will refresh
-      // Along with that also all the posts displayed will refresh
-      if (request.ok) {
-        document.getElementById('grayedout').style.display = 'none';
-        props.onPostCreated(refreshHome.current);
-        refreshHome.current = !refreshHome.current;
-      }
-      // TODO: Else -> handle server error
+    // When a post is sent to the server the home component will refresh, along with all the posts.
+    if (request.ok) {
+      document.getElementById('grayedout').style.display = 'none';
+      props.onPostCreated(refreshHome.current);
+      refreshHome.current = !refreshHome.current;
+    }
 
-      document.querySelector('#bee-name').value = '';
-      document.querySelector('#bee-body').value = '';
-    })();
+    document.querySelector('#bee-name').value = '';
+    document.querySelector('#bee-body').value = '';
 
     beeName.current = '';
     bzzBody.current = '';
@@ -74,11 +70,7 @@ export default function PostCreator(props) {
               onChange={handleChange}
             ></textarea>
             <div id='btn-cont'>
-              <input
-                type='submit'
-                className='submit'
-                value='Post'
-              ></input>
+              <input type='submit' className='submit' value='Post'></input>
             </div>
           </form>
         </div>
