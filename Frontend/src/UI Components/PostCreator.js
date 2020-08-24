@@ -1,40 +1,39 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import './PostCreator.css';
 
 export default function PostCreator(props) {
-  const beeName = useRef('');
-  const bzzBody = useRef('');
+  const [beeName, setBeeName] = useState('');
+  const [bzzBody, setBzzBody] = useState('');
   const refreshHome = useRef(false);
-
+  
   const handleChange = e => {
     if (e.target.name === 'beeName') {
-      beeName.current = e.target.value;
+      setBeeName(e.target.value);
     } else {
-      bzzBody.current = e.target.value;
+      setBzzBody(e.target.value);
     }
   };
-
+  
   const handleSubmit = async e => {
+    let finalName = beeName;
     e.preventDefault();
     document.getElementById('grayedout').style.display = 'block';
 
     // Add bee at the end of the string
     if (/bee$/.test(beeName.current)) {
-      let temp = beeName.current.split('');
-      temp = temp.slice(0, -3);
-      beeName.current = temp.join('');
+      finalName = beeName.split('').slice(0, -3);
+      finalName = finalName.join('');
     }
     if (!/Bee$/.test(beeName.current)) {
-      beeName.current = beeName.current + 'Bee';
+      finalName = finalName + 'Bee';
     }
 
-    // Send request to server
     let request = await fetch('http://localhost:5000/create/bzz', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `beeName=${beeName.current}&bzzBody=${bzzBody.current}`,
+      body: `beeName=${finalName}&bzzBody=${bzzBody}`,
     });
 
     // When a post is sent to the server the home component will refresh, along with all the posts.
@@ -44,11 +43,8 @@ export default function PostCreator(props) {
       refreshHome.current = !refreshHome.current;
     }
 
-    document.querySelector('#bee-name').value = '';
-    document.querySelector('#bee-body').value = '';
-
-    beeName.current = '';
-    bzzBody.current = '';
+    setBeeName('');
+    setBzzBody('');
   };
 
   return (
@@ -61,12 +57,14 @@ export default function PostCreator(props) {
               name='beeName'
               id='bee-name'
               placeholder='Bee Name'
+              value={beeName}
               onChange={handleChange}
             />
             <textarea
               name='bzzBody'
               id='bee-body'
               placeholder='Write your bzzz here...'
+              value={bzzBody}
               onChange={handleChange}
             ></textarea>
             <div id='btn-cont'>

@@ -15,9 +15,8 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       let data = await getAllPosts();
-      let postComponents = [];
-      data.forEach(el => {
-        postComponents.unshift(
+      let postComponents = data.map(el => {
+        return (
           <Post
             key={el._id}
             username={el.beeName}
@@ -26,7 +25,7 @@ export default function Home() {
           />
         );
       });
-
+      postComponents.reverse();
       setPosts(postComponents);
     })();
   }, [hasToRefresh]);

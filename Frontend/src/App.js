@@ -5,7 +5,7 @@ import ProfilePage from "./components/ProfilePage";
 import Header from "./components/Header";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Header />
@@ -16,5 +16,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
