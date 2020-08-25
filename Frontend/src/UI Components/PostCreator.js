@@ -20,11 +20,11 @@ export default function PostCreator(props) {
     document.getElementById('grayedout').style.display = 'block';
 
     // Add bee at the end of the string
-    if (/bee$/.test(beeName.current)) {
+    if (/bee$/.test(beeName)) {
       finalName = beeName.split('').slice(0, -3);
       finalName = finalName.join('');
     }
-    if (!/Bee$/.test(beeName.current)) {
+    if (!/Bee$/.test(beeName)) {
       finalName = finalName + 'Bee';
     }
 
