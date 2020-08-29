@@ -1,7 +1,7 @@
 // RFC
 import React from 'react';
 import './Post.css';
-import BeeImage from '../assets/bee.svg';
+import BeeImage from '../components/assets/bee.svg';
 
 export default function Post(props) {
   return (
