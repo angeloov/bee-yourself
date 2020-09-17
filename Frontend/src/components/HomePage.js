@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PostCreator from '../UI Components/PostCreator';
 import Post from '../UI Components/Post';
+import Header from './Header';
 
 async function getAllPosts() {
   let x = await fetch('http://localhost:5000/getall/bzz');
@@ -8,7 +9,7 @@ async function getAllPosts() {
   return data;
 }
 
-export default function Home() {
+export default function HomePage() {
   const [posts, setPosts] = useState([]);
   const [hasToRefresh, setHasToRefresh] = useState(true);
 
@@ -31,6 +32,7 @@ export default function Home() {
   }, [hasToRefresh]);
   return (
     <div>
+      <Header />
       <PostCreator onPostCreated={setHasToRefresh} />
       <div style={{ marginTop: 20 }}>{posts}</div>
     </div>

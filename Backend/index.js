@@ -6,10 +6,24 @@ const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 const BzzModel = require('./models/PostSchema');
+const passport = require('passport');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
-app.use(helmet());
-app.use(cors());
+//app.use(helmet());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: 'secretkey',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(cookieParser('secretkey'));
+app.use(passport.initialize());
+app.use(passport.session());
+require('./passport.config')(passport);
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -42,9 +56,9 @@ app.post(
       },
       err => {
         if (err) {
-          console.log(err)
+          console.log(err);
           next(error);
-        };
+        }
       }
     );
     res.send();
@@ -52,12 +66,31 @@ app.post(
   }
 );
 
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err) throw err;
+    if (!user) res.json({ success: false, flashMessage: "This user doesn't exist" });
+    else {
+      req.logIn(user, err => {
+        if (err) throw err;
+        console.log(req.user);
+        res.json({ success: true });
+      });
+    }
+  })(req, res, next);
+});
+
+app.get('/user/me', (req, res) => {
+  console.log(req.user);
+  res.json(req.user);
+});
+
 app.use(function (err, req, res, next) {
   console.error(err.stack);
-  process.env.NODE_ENV === "production" ? res.status(500).send("Sever error! Something went wrong") : res.status(500).json({errorStack: err.stack});
+  process.env.NODE_ENV === 'production'
+    ? res.status(500).send('Sever error! Something went wrong')
+    : res.status(500).json({ errorStack: err.stack });
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`The server was started! http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`The server was started! http://localhost:${PORT}`));
