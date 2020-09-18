@@ -11,19 +11,20 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 //app.use(helmet());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: 'secretkey',
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 app.use(cookieParser('secretkey'));
 app.use(passport.initialize());
 app.use(passport.session());
-require('./passport.config')(passport);
+require('./passport.config.js')(passport);
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -40,32 +41,6 @@ app.get('/getall/bzz', (req, res) => {
   BzzModel.find().then(data => res.send(data));
 });
 
-app.post(
-  '/create/bzz',
-  [body('beeName').isLength({ min: 4 }), body('bzzBody').isLength({ min: 2 })],
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    BzzModel.create(
-      {
-        beeName: req.body.beeName,
-        bzzBody: req.body.bzzBody,
-        timestamp: new Date().toLocaleString(),
-      },
-      err => {
-        if (err) {
-          console.log(err);
-          next(error);
-        }
-      }
-    );
-    res.send();
-    res.status(200);
-  }
-);
-
 app.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user) => {
     if (err) throw err;
@@ -73,16 +48,36 @@ app.post('/login', (req, res, next) => {
     else {
       req.logIn(user, err => {
         if (err) throw err;
-        console.log(req.user);
         res.json({ success: true });
       });
     }
   })(req, res, next);
 });
 
-app.get('/user/me', (req, res) => {
-  console.log(req.user);
+app.get('/user', (req, res) => {
   res.json(req.user);
+});
+
+app.post('/create/bzz', [body('bzzBody').isLength({ min: 2 })], (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  BzzModel.create(
+    {
+      beeName: req.user.username,
+      bzzBody: req.body.bzzBody,
+      timestamp: new Date().toLocaleString(),
+    },
+    err => {
+      if (err) {
+        console.log(err);
+        next(error);
+      }
+    }
+  );
+  res.send();
+  res.status(200);
 });
 
 app.use(function (err, req, res, next) {

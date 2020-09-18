@@ -33,7 +33,7 @@ export default function Login() {
     <div className='login-container'>
       <div className='login-title'>
         <img src={BeeIcon} alt='BeeYou Logo' className='by-logo' id='l' />
-        <h1 id='tt-l'>Login</h1>
+        <h1 id='tt-l'>Register</h1>
       </div>
       <form id='login-form' autoComplete='off' onSubmit={handleLogin}>
         <input
