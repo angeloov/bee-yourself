@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import BeeIcon from '../components/assets/BeeIcon.png';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -13,12 +14,11 @@ export default function Login() {
       method: 'POST',
       withCredentials: true,
       url: 'http://localhost:5000/login',
-      data: {username: username, password: password}
-    })
-      .then(res => {
-        if (res.data.success) window.location.href = 'http://localhost:3000/home';
-        else console.log('The login was not successful'); 
-      });
+      data: { username: username, password: password },
+    }).then(res => {
+      if (res.data.success) window.location.href = 'http://localhost:3000/home';
+      else console.log('The login was not successful');
+    });
   };
 
   const handleUserinput = e => {
@@ -54,7 +54,7 @@ export default function Login() {
           value={password}
           onChange={handleUserinput}
         />
-        <p className='registrati'>Non hai un account? Registrati</p>
+        <p className='registrati'>Non hai un account? <Link to="/register">Registrati</Link></p>
         <div id='btn-container'>
           <button className='btn'>Login</button>
         </div>

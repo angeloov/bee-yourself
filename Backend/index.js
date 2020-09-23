@@ -6,11 +6,13 @@ const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 const BzzModel = require('./models/PostSchema');
+const User = require('./models/UserSchema');
 const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
 
-//app.use(helmet());
+app.use(helmet());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,23 +43,6 @@ app.get('/getall/bzz', (req, res) => {
   BzzModel.find().then(data => res.send(data));
 });
 
-app.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user) => {
-    if (err) throw err;
-    if (!user) res.json({ success: false, flashMessage: "This user doesn't exist" });
-    else {
-      req.logIn(user, err => {
-        if (err) throw err;
-        res.json({ success: true });
-      });
-    }
-  })(req, res, next);
-});
-
-app.get('/user', (req, res) => {
-  res.json(req.user);
-});
-
 app.post('/create/bzz', [body('bzzBody').isLength({ min: 2 })], (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -78,6 +63,38 @@ app.post('/create/bzz', [body('bzzBody').isLength({ min: 2 })], (req, res, next)
   );
   res.send();
   res.status(200);
+});
+
+app.post('/register', async (req, res, next) => {
+  let salt = await bcrypt.genSalt(12);
+  let hash = await bcrypt.hash(req.body.password, salt);
+
+  let query = await User.findOne({ username: req.body.username }).exec();
+  if (!query) {
+    User.create({ username: req.body.username, password: hash }, err => {
+      if (err) next(err);
+    });
+    res.json({ success: true });
+  } else {
+    res.json({ success: false, message: 'This user already exists' });
+  }
+});
+
+app.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err) throw err;
+    if (!user) res.json({ success: false, flashMessage: "This user doesn't exist" });
+    else {
+      req.logIn(user, err => {
+        if (err) throw err;
+        res.json({ success: true });
+      });
+    }
+  })(req, res, next);
+});
+
+app.get('/user', (req, res) => {
+  res.json(req.user);
 });
 
 app.use(function (err, req, res, next) {

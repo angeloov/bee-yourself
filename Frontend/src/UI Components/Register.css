@@ -1,6 +1,6 @@
 @import '../fonts/fonts.css';
 
-.login-container {
+.register-container {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
   border-radius: 1em;
   display: inline-block;
@@ -64,7 +64,7 @@
   margin-right: 0.6em;
 }
 
-.login-title {
+.register-title {
   margin-top: 1.2em;
   display: flex;
   justify-content: center;
@@ -74,4 +74,16 @@
 #tt-l {
   margin: 0;
   margin-left: 0.6em;
+}
+
+.input-check {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 0.6em;
+  display: none;
+}
+
+.input-container {
+  position: relative;
 }
