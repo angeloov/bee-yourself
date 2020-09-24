@@ -2,7 +2,9 @@
 
 Full stack application build by me using React and NodeJS (Express).
 
-![Homepage](https://i.ibb.co/8KTFC8t/Bee-You-Homepage.png)
+[Homepage](https://postimg.cc/V08pXyk3)
+[Login Page](https://i.ibb.co/PwP7Q4t/s1.png)
+[Register Page](https://i.ibb.co/H4Qj06r/s2.png)
 
 ToFix:
 You can register without having to enter a password

@@ -129,7 +129,7 @@ export default function Register() {
           </svg>
         </div>
         <p className='registrati'>
-          Hai già un account? <Link to='/'>Accedi</Link>
+          Already have an account? <Link to='/'>Login</Link>
         </p>
         <div id='btn-container'>
           <button className='btn'>Register</button>

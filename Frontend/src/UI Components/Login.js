@@ -54,7 +54,7 @@ export default function Login() {
           value={password}
           onChange={handleUserinput}
         />
-        <p className='registrati'>Non hai un account? <Link to="/register">Registrati</Link></p>
+        <p className='registrati'>Don't have an account? <Link to="/register">Register</Link></p>
         <div id='btn-container'>
           <button className='btn'>Login</button>
         </div>
